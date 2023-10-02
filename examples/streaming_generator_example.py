@@ -1,18 +1,13 @@
 import os
 
-from langchain.chat_models import ChatOpenAI
+from langchain.chat_models import ChatLiteLLM
 
 from salesgpt.agents import SalesGPT
 
-with open(".env", "r") as f:
-    env_file = f.readlines()
-envs_dict = {
-    key.strip("'"): value.strip("\n")
-    for key, value in [(i.split("=")) for i in env_file]
-}
-os.environ["OPENAI_API_KEY"] = envs_dict["OPENAI_API_KEY"]
+from dotenv import load_dotenv
+load_dotenv()
 
-llm = ChatOpenAI(temperature=0.9)
+llm = ChatLiteLLM(temperature=0.9)
 
 sales_agent = SalesGPT.from_llm(
     llm,
